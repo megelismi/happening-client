@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const loginStyles = StyleSheet.create({
+const authStyles = StyleSheet.create({
     wrapper: {
         flex: 1
     },
@@ -32,4 +32,4 @@ const loginStyles = StyleSheet.create({
     }
 });
 
-export default loginStyles;
+export default authStyles;

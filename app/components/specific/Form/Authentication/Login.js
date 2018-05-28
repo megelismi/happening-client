@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import loginStyles from './loginStyles';
+import authStyles from './authStyles';
 
 import {
     Text,
@@ -11,34 +11,22 @@ import {
     AsyncStorage
 } from 'react-native';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            username: '',
+            phone:    '',
             password: ''
         };
 
         this.login       = this.login.bind(this);
-        this.setUsername = this.setUsername.bind(this);
+        this.setPhone    = this.setPhone.bind(this);
         this.setPassword = this.setPassword.bind(this);
     }
 
-    componentDidMount() {
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        const value = await AsyncStorage.getItem('user');
-
-        if (value !== null) {
-            this.props.navigation.navigation('Profile');
-        }
-    };
-
     login() {
-        alert (this.state.username + this.state.password);
+        alert (this.state.phone + this.state.password);
 
         fetch('http://193.5454.25.2:3000/users', {
             method: 'POST',
@@ -47,7 +35,7 @@ export default class Login extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: this.state.username,
+                username: this.state.phone,
                 password: this.state.password
             })
         }).then(
@@ -64,38 +52,38 @@ export default class Login extends Component {
     }
 
     setPassword(password) {
-        this.setState({ password });
+        this.setState({password});
     }
 
-    setUsername(username) {
-        this.setState({ username });
+    setPhone(username) {
+        this.setState({username});
     }
 
     render() {
         return (
             <KeyboardAvoidingView
                 behavior='padding'
-                style={loginStyles.wrapper}
+                style={authStyles.wrapper}
             >
-                <View style={loginStyles.container}>
-                    <Text style={loginStyles.header}> - LOGIN - </Text>
+                <View style={authStyles.container}>
+                    <Text style={authStyles.header}> - LOGIN - </Text>
 
                     <TextInput
-                        style={loginStyles.textInput}
-                        placeholder="Username"
-                        onChangeText={ this.setUsername }
+                        style={authStyles.textInput}
+                        placeholder="Phone"
+                        onChangeText={this.setPhone}
                         underlineColorAndriod="transparent"
                     />
 
                     <TextInput
-                        style={loginStyles.textInput}
+                        style={authStyles.textInput}
                         placeholder="Password"
-                        onChangeText={ this.setPassword }
+                        onChangeText={this.setPassword}
                         underlineColorAndriod="transparent"
                     />
 
                     <TouchableOpacity
-                        style={loginStyles.btn}
+                        style={authStyles.btn}
                         onPress={this.login}
                     >
                         <Text>Log in</Text>
@@ -105,4 +93,6 @@ export default class Login extends Component {
         );
     }
 }
+
+export default Login;
 
