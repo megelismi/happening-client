@@ -6,7 +6,7 @@ import { onSignIn } from "../../../auth";
 export default ({ navigation }) => (
     <View style={{ paddingVertical: 20 }}>
         <Card>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>Phone</FormLabel>
             <FormInput placeholder="Phone number" />
             <FormLabel>Password</FormLabel>
             <FormInput secureTextEntry placeholder="Password..." />
@@ -14,7 +14,7 @@ export default ({ navigation }) => (
             <Button
                 buttonStyle={{ marginTop: 20 }}
                 backgroundColor="#03A9F4"
-                title="SIGN IN"
+                title="Sign In"
                 onPress={() => {
                     onSignIn().then(() => navigation.navigate("SignedIn"));
                 }}
