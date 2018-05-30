@@ -40,8 +40,7 @@ class SignUpForm extends Component {
                 firstName: this.state.firstName,
                 lastName:  this.state.lastName
             })
-        }).then(
-            response => console.log('response!', response)
+        }).then(response => console.log('response!', response)
         ).done();
     }
 
