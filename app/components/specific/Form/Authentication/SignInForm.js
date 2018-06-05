@@ -4,6 +4,10 @@ import { onSignIn } from "../../../../auth";
 import { validPhone } from "../../../../handlers/formValidation";
 import { FORM_ERRORS } from "../../../../constants/form";
 
+import _ from 'lodash';
+
+import { ActivityIndicator } from 'react-native';
+
 import {
     Button,
     Card,
@@ -26,6 +30,18 @@ class SignInForm extends Component {
         this.signIn       = this.signIn.bind(this);
         this.formIsValid  = this.formIsValid.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    _getMissingErrors(fields) {
+        let errors = {};
+
+        fields.forEach(field => {
+            if (this.state[field] === '') {
+                errors[field] = FORM_ERRORS.required;
+            }
+        });
+
+        return errors;
     }
 
     formIsValid() {
@@ -57,6 +73,16 @@ class SignInForm extends Component {
         return valid;
     }
 
+    _setErrors(errors) {
+        this.formInput.shake();
+
+        this.setState({ errors });
+    }
+
+    _clearErrors() {
+        this.setState({ errors: {} });
+    }
+
     _setSubmitting() {
         this.setState({ submitting: true });
     }
@@ -69,6 +95,8 @@ class SignInForm extends Component {
         if (this.formIsValid()) {
             this._setSubmitting();
 
+            this._clearErrors();
+
             fetch('http://127.0.0.1:3000/user/signIn', {
                 method: 'POST',
                 headers: {
@@ -80,18 +108,23 @@ class SignInForm extends Component {
                     password: this.state.password
                 })
             }).then(response => {
+                if (!response.ok) {
+                    throw new Error(response);
+                }
+
+                return response.json();
+            }).then(jsonResponse => {
+                console.log('jsonResponse', jsonResponse);
+
                 this._clearSubmitting();
 
-                if (response.status === 200) {
-                    onSignIn().then(
-                        () => navigation.navigate("SignedIn")
-                    );
-                }
-
-                if (response.status === 500) {
-                    console.log('error!', error);
-                }
-            }).done();
+                onSignIn().then(
+                    () => {
+                        this.props.navigation.navigate("SignedIn")
+                    }
+                );
+            })
+            .catch(err => err.json().then(error => console.log('error!', error)))
         }
     }
 
@@ -111,11 +144,20 @@ class SignInForm extends Component {
         return (
             <Card>
                 <FormLabel>Phone</FormLabel>
-                <FormInput placeholder="Phone number" />
+                <FormInput
+                    ref={ ref => this.formInput = ref }
+                    placeholder="Phone number"
+                    onChangeText={ value => this.handleChange('phone', value) }
+                />
                 <FormValidationMessage>{ errors.phone }</FormValidationMessage>
 
                 <FormLabel>Password</FormLabel>
-                <FormInput secureTextEntry placeholder="Password..." />
+                <FormInput
+                    ref={ ref => this.formInput = ref }
+                    secureTextEntry
+                    placeholder="Password..."
+                    onChangeText={ value => this.handleChange('password', value) }
+                />
                 <FormValidationMessage>{ errors.password }</FormValidationMessage>
 
                 <Button

@@ -12,7 +12,7 @@ import {
 
 import _ from 'lodash';
 
-import {onSignIn, onSignUp} from "../../../../auth";
+import { onSignIn } from "../../../../auth";
 import { validPhone } from "../../../../handlers/formValidation";
 
 import { FORM_ERRORS } from "../../../../constants/form";
@@ -101,7 +101,7 @@ class SignUpForm extends Component {
 
             this._setSubmitting();
 
-            fetch('http://127.0.0.1:3000/user/create', {
+            fetch('http://127.0.0.1:3000/user/signUp', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -118,7 +118,7 @@ class SignUpForm extends Component {
 
                 if (response.status === 200) {
                     onSignIn().then(
-                        () => navigation.navigate("SignedIn")
+                        () => this.props.navigation.navigate("SignedIn")
                     );
                 }
             }).done();
