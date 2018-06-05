@@ -1,98 +1,133 @@
 import React, { Component } from 'react';
 
-import authStyles from './authStyles';
+import { onSignIn } from "../../../../auth";
+import { validPhone } from "../../../../handlers/formValidation";
+import { FORM_ERRORS } from "../../../../constants/form";
 
 import {
-    Text,
-    View,
-    TextInput,
-    KeyboardAvoidingView,
-    TouchableOpacity,
-    AsyncStorage
-} from 'react-native';
+    Button,
+    Card,
+    FormInput,
+    FormLabel,
+    FormValidationMessage
+} from 'react-native-elements';
 
-class Login extends Component {
+class SignInForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            phone:    '',
-            password: ''
+            phone:      '',
+            password:   '',
+            errors:     {},
+            submitting: false
         };
 
-        this.login       = this.login.bind(this);
-        this.setPhone    = this.setPhone.bind(this);
-        this.setPassword = this.setPassword.bind(this);
+        this.signIn       = this.signIn.bind(this);
+        this.formIsValid  = this.formIsValid.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    login() {
-        alert (this.state.phone + this.state.password);
+    formIsValid() {
+        let valid  = true;
+        let errors = {};
 
-        fetch('http://193.5454.25.2:3000/users', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: this.state.phone,
-                password: this.state.password
-            })
-        }).then(
-            response => response.json()
-        ).then(jsonRes => {
-            if (jsonRes.success === true) {
-                AsyncStorage.setItem('user', res.user);
+        if (!validPhone(this.state.phone)) {
+            valid = false;
 
-                this.props.navigation.navigate('Profile');
-            } else {
-                alert(res.message);
-            }
-        }).done();
+            errors.phone = FORM_ERRORS.invalidPhone;
+        }
+
+        const missingErrors = this._getMissingErrors([
+            'password',
+            'phone'
+        ]);
+
+        if (!_.isEmpty(missingErrors)) {
+            valid = false;
+
+            errors = {
+                ...errors,
+                ...missingErrors
+            };
+        }
+
+        !valid && this._setErrors(errors);
+
+        return valid;
     }
 
-    setPassword(password) {
-        this.setState({password});
+    _setSubmitting() {
+        this.setState({ submitting: true });
     }
 
-    setPhone(username) {
-        this.setState({username});
+    _clearSubmitting() {
+        this.setState({ submitting: false })
+    }
+
+    signIn() {
+        if (this.formIsValid()) {
+            this._setSubmitting();
+
+            fetch('http://127.0.0.1:3000/user/signIn', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone:    this.state.phone,
+                    password: this.state.password
+                })
+            }).then(response => {
+                this._clearSubmitting();
+
+                if (response.status === 200) {
+                    onSignIn().then(
+                        () => navigation.navigate("SignedIn")
+                    );
+                }
+
+                if (response.status === 500) {
+                    console.log('error!', error);
+                }
+            }).done();
+        }
+    }
+
+    handleChange(name, value) {
+        this.setState({ [name]: value });
     }
 
     render() {
+        const { errors, submitting } = this.state;
+
+        if (submitting) {
+            return (
+                <ActivityIndicator size="large" color="#0000ff" />
+            );
+        }
+
         return (
-            <KeyboardAvoidingView
-                behavior='padding'
-                style={authStyles.wrapper}
-            >
-                <View style={authStyles.container}>
-                    <Text style={authStyles.header}> - LOGIN - </Text>
+            <Card>
+                <FormLabel>Phone</FormLabel>
+                <FormInput placeholder="Phone number" />
+                <FormValidationMessage>{ errors.phone }</FormValidationMessage>
 
-                    <TextInput
-                        style={authStyles.textInput}
-                        placeholder="Phone"
-                        onChangeText={this.setPhone}
-                        underlineColorAndriod="transparent"
-                    />
+                <FormLabel>Password</FormLabel>
+                <FormInput secureTextEntry placeholder="Password..." />
+                <FormValidationMessage>{ errors.password }</FormValidationMessage>
 
-                    <TextInput
-                        style={authStyles.textInput}
-                        placeholder="Password"
-                        onChangeText={this.setPassword}
-                        underlineColorAndriod="transparent"
-                    />
-
-                    <TouchableOpacity
-                        style={authStyles.btn}
-                        onPress={this.login}
-                    >
-                        <Text>Log in</Text>
-                    </TouchableOpacity>
-                </View>
-            </KeyboardAvoidingView>
+                <Button
+                    buttonStyle={{ marginTop: 20 }}
+                    backgroundColor="#03A9F4"
+                    title="Sign In"
+                    onPress={ this.signIn }
+                />
+            </Card>
         );
     }
 }
 
-export default Login;
+export default SignInForm;
 
