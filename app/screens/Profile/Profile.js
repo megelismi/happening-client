@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { onSignOut } from '../../../auth';
+import { onSignOut } from '../../auth';
 import { Card, Button } from 'react-native-elements';
 import { View, Text } from 'react-native';
 

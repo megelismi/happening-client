@@ -9,10 +9,10 @@ import {
     createSwitchNavigator
 } from "react-navigation";
 
-import Home from "./components/screens/Home/Home";
-import Profile from "./components/screens/Profile/Profile";
-import SignUp from "./components/screens/Auth/SignUp";
-import SignIn from "./components/screens/Auth/SignIn";
+import Home from "./screens/Home/Home";
+import Profile from "./screens/Profile/Profile";
+import SignUp from "./screens/Auth/SignUp";
+import SignIn from "./screens/Auth/SignIn";
 
 import { FontAwesome } from "react-native-vector-icons";
 

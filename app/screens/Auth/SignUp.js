@@ -2,9 +2,9 @@ import React from 'react';
 
 import { View } from 'react-native';
 
-import { onSignUp } from "../../../auth";
+import { onSignUp } from "../../auth";
 
-import SignUpForm from '../../specific/Form/Authentication/SignUpForm';
+import SignUpForm from '../../components/Form/Authentication/SignUpForm';
 
 export default ({ navigation }) => (
     <View style={{ paddingVertical: 20 }}>

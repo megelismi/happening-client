@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 
-import SignInForm from "../../specific/Form/Authentication/SignInForm";
+import SignInForm from "../../components/Form/Authentication/SignInForm";
 
 export default ({ navigation }) => (
     <View style={{ paddingVertical: 20 }}>
