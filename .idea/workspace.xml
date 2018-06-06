@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7c32eda-8528-4a04-bb0d-db10a242de4b" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/components/Navbar/UnauthenticatedNav.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/components/screens/Auth/SignIn.js" afterPath="$PROJECT_DIR$/app/screens/Auth/SignIn.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/screens/Auth/SignUp.js" afterPath="$PROJECT_DIR$/app/screens/Auth/SignUp.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/screens/Home/Home.js" afterPath="$PROJECT_DIR$/app/screens/Home/Home.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/screens/Profile/Profile.js" afterPath="$PROJECT_DIR$/app/screens/Profile/Profile.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/screens/Profile/profileStyles.js" afterPath="$PROJECT_DIR$/app/screens/Profile/profileStyles.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/specific/Form/Authentication/SignInForm.js" afterPath="$PROJECT_DIR$/app/components/Form/Authentication/SignInForm.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/specific/Form/Authentication/SignUpForm.js" afterPath="$PROJECT_DIR$/app/components/Form/Authentication/SignUpForm.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/specific/Form/Authentication/authStyles.js" afterPath="$PROJECT_DIR$/app/components/Form/Authentication/authStyles.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/specific/Navbar/AuthenticatedNav.js" afterPath="$PROJECT_DIR$/app/components/Form/FormProvider.js" />
-      <change beforePath="$PROJECT_DIR$/app/components/specific/Navbar/UnauthenticatedNav.js" afterPath="$PROJECT_DIR$/app/components/Navbar/AuthenticatedNav.js" />
-      <change beforePath="$PROJECT_DIR$/app/router.js" afterPath="$PROJECT_DIR$/app/router.js" />
+      <change beforePath="$PROJECT_DIR$/app/components/Form/FormProvider.js" afterPath="$PROJECT_DIR$/app/components/Form/FormProvider.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,7 +31,7 @@
           <file leaf-file-name="SignInForm.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/components/Form/Authentication/SignInForm.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1814">
+                <state relative-caret-position="-3">
                   <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
                   <folding />
                 </state>
@@ -125,8 +113,8 @@
           <file leaf-file-name="FormProvider.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/components/Form/FormProvider.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="686">
-                  <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+                <state relative-caret-position="1026">
+                  <caret line="57" column="47" lean-forward="true" selection-start-line="57" selection-start-column="47" selection-end-line="57" selection-end-column="47" />
                   <folding>
                     <element signature="e#0#41#0" expanded="true" />
                   </folding>
@@ -196,9 +184,9 @@
         <option value="$PROJECT_DIR$/app/handlers/formValidation.js" />
         <option value="$PROJECT_DIR$/app/components/specific/Form/Authentication/SignInForm.js" />
         <option value="$PROJECT_DIR$/app/screens/Home/Home.js" />
-        <option value="$PROJECT_DIR$/app/components/Form/FormProvider.js" />
         <option value="$PROJECT_DIR$/app/components/Form/Authentication/SignUpForm.js" />
         <option value="$PROJECT_DIR$/app/components/Form/Authentication/SignInForm.js" />
+        <option value="$PROJECT_DIR$/app/components/Form/FormProvider.js" />
       </list>
     </option>
   </component>
@@ -365,12 +353,12 @@
       <workItem from="1528163964600" duration="8290000" />
       <workItem from="1528172970678" duration="3380000" />
       <workItem from="1528207908772" duration="16000" />
-      <workItem from="1528250224356" duration="8113000" />
+      <workItem from="1528250224356" duration="8539000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48990000" />
+    <option name="totallyTimeSpent" value="49416000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1618" y="340" width="2318" height="1095" extended-state="0" />
@@ -670,16 +658,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/Form/FormProvider.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="686">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -738,9 +716,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/components/Form/Authentication/SignInForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1814">
+        <state relative-caret-position="-3">
           <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/Form/FormProvider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1026">
+          <caret line="57" column="47" lean-forward="true" selection-start-line="57" selection-start-column="47" selection-end-line="57" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

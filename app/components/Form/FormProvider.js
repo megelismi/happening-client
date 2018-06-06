@@ -49,8 +49,8 @@ export class FormProvider extends Component {
         this.setState({ submitting: false });
     }
 
-    render() {
-        const context = {
+    _getContext() {
+        return {
             errors:           this.state.errors,
             submitting:       this.state.submitting,
             getMissingErrors: this.getMissingErrors,
@@ -59,9 +59,11 @@ export class FormProvider extends Component {
             setSubmitting:    this.setSubmitting,
             clearSubmitting:  this.clearSubmitting
         };
+    }
 
+    render() {
         return (
-            <FormContext.Provider value={ context }>
+            <FormContext.Provider value={ this._getContext() }>
                 { this.state.submitting ?
                     <ActivityIndicator size="large" color="#0000ff" />
                 : this.props.children }
