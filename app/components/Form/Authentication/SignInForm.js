@@ -8,6 +8,8 @@ import _ from 'lodash';
 
 import { FormContext, FormProvider } from '../FormProvider';
 
+import { RequestValidationException } from "../../../handlers/fetcher";
+
 import {
     Button,
     Card,
@@ -15,6 +17,7 @@ import {
     FormLabel,
     FormValidationMessage
 } from 'react-native-elements';
+import fetcher from "../../../handlers/fetcher";
 
 class SignInForm extends Component {
     constructor(props) {
@@ -59,53 +62,82 @@ class SignInForm extends Component {
         return valid;
     }
 
+    _handleSignInSuccess() {
+        //call this.props.setUser();
+        //navigate to home page
+    }
+
+    _handleSignInFail(error, context) {
+        if (error instanceof RequestValidationException) {
+            error.resolve().then(e => console.log('e!!', e));
+
+            //error.resolve().then( console.log('requestValidationError', error) );
+        }
+        else {
+            throw error;
+        }
+    }
+
     signIn(context) {
         if (this.formIsValid(context)) {
             context.setSubmitting();
 
             context.clearErrors();
 
-            fetch('http://127.0.0.1:3000/user/signIn', {
-                method: 'POST',
-                headers: {
-                    'Accept':       'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    phone:    this.state.phone,
-                    password: this.state.password
-                })
+            fetcher.post('http://127.0.0.1:3000/user/signUp', {
+                phone:    this.state.phone,
+                password: this.state.password
             }).then(response => {
-                if (!response.ok) {
-                    response.json().then(response => {
-                        if (response.errors) {
-                            if (response.errors.app) {
-                                console.log('set app errors');
-                            }
-                            else {
-                                context.setErrors(response.errors);
-
-                                context.clearSubmitting();
-                            }
-                        }
-                    });
-
-                    throw new Error(response.statusText);
-                }
-
-                return response.json();
-            }).then(jsonResponse => {
-                console.log('jsonResponse', jsonResponse);
-
                 context.clearSubmitting();
 
-                onSignIn().then(
-                    () => {
-                        this.props.navigation.navigate("SignedIn")
-                    }
-                );
-            })
-            .catch(err => console.log('error', err))
+                this._handleSignInFail(response.user);
+            }).catch(error => {
+                context.clearSubmitting();
+
+                this._handleSignInFail(error);
+            });
+
+            // fetch('http://127.0.0.1:3000/user/signIn', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept':       'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         phone:    this.state.phone,
+            //         password: this.state.password
+            //     })
+            // }).then(response => {
+            //     if (!response.ok) {
+            //         response.json().then(response => {
+            //             if (response.errors) {
+            //                 if (response.errors.app) {
+            //                     console.log('set app errors');
+            //                 }
+            //                 else {
+            //                     context.setErrors(response.errors);
+            //
+            //                     context.clearSubmitting();
+            //                 }
+            //             }
+            //         });
+            //
+            //         throw new Error(response.statusText);
+            //     }
+            //
+            //     return response.json();
+            // }).then(jsonResponse => {
+            //     console.log('jsonResponse', jsonResponse);
+            //
+            //     context.clearSubmitting();
+            //
+            //     onSignIn().then(
+            //         () => {
+            //             this.props.navigation.navigate("SignedIn")
+            //         }
+            //     );
+            // })
+            // .catch(err => console.log('error', err))
         }
     }
 

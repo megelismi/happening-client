@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-
+import fetcher from '../../../handlers/fetcher';
 
 import {
     Button,
@@ -67,44 +67,53 @@ class SignUpForm extends Component {
 
             context.setSubmitting();
 
-            fetch('http://127.0.0.1:3000/user/signUp', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    phone:    this.state.phone,
-                    password: this.state.password
-                })
+            fetcher.post('http://127.0.0.1:3000/user/signUp', {
+                phone:    this.state.phone,
+                password: this.state.password
             }).then(response => {
-                if (!response.ok) {
-                    response.json().then(response => {
-                        if (response.errors) {
-                            if (response.errors.app) {
-                                console.log('set app errors');
-                            }
-                            else {
-                                context.setErrors(response.errors);
-
-                                context.clearSubmitting();
-                            }
-                        }
-                    });
-
-                    throw new Error(response.statusText);
-                }
-
-                return response.json();
-            }).then(jsonResponse => {
                 context.clearSubmitting();
 
-                onSignIn().then(
-                    () => {
-                        this.props.navigation.navigate("SignedIn")
-                    }
-                );
-            }).catch(err => console.log('error', err))
+                console.log('response', response)
+            });
+
+            // fetch('http://127.0.0.1:3000/user/signUp', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         phone:    this.state.phone,
+            //         password: this.state.password
+            //     })
+            // }).then(response => {
+            //     if (!response.ok) {
+            //         response.json().then(response => {
+            //             if (response.errors) {
+            //                 if (response.errors.app) {
+            //                     console.log('set app errors');
+            //                 }
+            //                 else {
+            //                     context.setErrors(response.errors);
+            //
+            //                     context.clearSubmitting();
+            //                 }
+            //             }
+            //         });
+            //
+            //         throw new Error(response.statusText);
+            //     }
+            //
+            //     return response.json();
+            // }).then(jsonResponse => {
+            //     context.clearSubmitting();
+            //
+            //     onSignIn().then(
+            //         () => {
+            //             this.props.navigation.navigate("SignedIn")
+            //         }
+            //     );
+            // }).catch(err => console.log('error', err));
         }
     }
 
@@ -120,7 +129,6 @@ class SignUpForm extends Component {
                         <Card>
                             <FormLabel>Phone</FormLabel>
                             <FormInput
-                                ref={ ref => this.formInput = ref }
                                 placeholder="Phone number"
                                 onChangeText={
                                     value => this.handleChange('phone', value)
@@ -130,7 +138,6 @@ class SignUpForm extends Component {
 
                             <FormLabel>Password</FormLabel>
                             <FormInput
-                                ref={ ref => this.formInput = ref }
                                 secureTextEntry
                                 placeholder="Password"
                                 onChangeText={
