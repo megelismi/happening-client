@@ -28,9 +28,11 @@ class SignInForm extends Component {
             password: ''
         };
 
-        this.signIn       = this.signIn.bind(this);
-        this.formIsValid  = this.formIsValid.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.signIn        = this.signIn.bind(this);
+        this.formIsValid   = this.formIsValid.bind(this);
+        this.handleChange  = this.handleChange.bind(this);
+        this.handleSuccess = this.handleSuccess.bind(this);
+        this.handleFail    = this.handleFail.bind(this);
     }
 
     formIsValid(context) {
@@ -62,12 +64,12 @@ class SignInForm extends Component {
         return valid;
     }
 
-    _handleSignInSuccess() {
+    handleSuccess() {
         //call this.props.setUser();
         //navigate to home page
     }
 
-    _handleSignInFail(error, context) {
+    handleFail(error, context) {
         if (error instanceof RequestValidationException) {
             error.resolve().then(e => console.log('e!!', e));
 
@@ -90,11 +92,11 @@ class SignInForm extends Component {
             }).then(response => {
                 context.clearSubmitting();
 
-                this._handleSignInFail(response.user);
+                this.handleSuccess(response.user);
             }).catch(error => {
                 context.clearSubmitting();
 
-                this._handleSignInFail(error);
+                this.handleFail(error);
             });
 
             // fetch('http://127.0.0.1:3000/user/signIn', {

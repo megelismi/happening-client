@@ -7,6 +7,8 @@ const enhancerList = [];
 const devToolsExtension = window && window.__REDUX_DEVTOOLS_EXTENSION__;
 
 if (typeof devToolsExtension === 'function') {
+    console.log('got here');
+
     enchancerList.push(devToolsExtension());
 }
 

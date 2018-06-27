@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 import fetcher from '../../../handlers/fetcher';
 
@@ -15,7 +16,13 @@ import { FormContext, FormProvider } from '../FormProvider';
 import _ from 'lodash';
 
 import { onSignIn } from "../../../auth";
+
 import { validPhone } from "../../../handlers/formValidation";
+
+import {
+    setUser,
+    setUserError
+} from "../../../actions/users";
 
 import { FORM_ERRORS } from "../../../constants/form";
 
@@ -28,8 +35,10 @@ class SignUpForm extends Component {
             password: ''
         };
 
-        this.signUp       = this.signUp.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.signUp        = this.signUp.bind(this);
+        this.handleChange  = this.handleChange.bind(this);
+        this.handleFail    = this.handleFail.bind(this);
+        this.handleSuccess = this.handleSuccess.bind(this);
     }
 
     formIsValid(context) {
@@ -61,6 +70,20 @@ class SignUpForm extends Component {
         return valid;
     }
 
+    handleSuccess(user) {
+        onSignIn().then(
+            () => {
+                this.props.setUser(user);
+
+                this.props.navigation.navigate("SignedIn")
+            }
+        );
+    }
+
+    handleFail(error) {
+        this.props.setUserError(error);
+    }
+
     signUp(context) {
         if (this.formIsValid(context)) {
             !_.isEmpty(context.errors) && context.clearErrors();
@@ -73,47 +96,14 @@ class SignUpForm extends Component {
             }).then(response => {
                 context.clearSubmitting();
 
-                console.log('response', response)
-            });
+                this.handleSuccess(response.user)
 
-            // fetch('http://127.0.0.1:3000/user/signUp', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         phone:    this.state.phone,
-            //         password: this.state.password
-            //     })
-            // }).then(response => {
-            //     if (!response.ok) {
-            //         response.json().then(response => {
-            //             if (response.errors) {
-            //                 if (response.errors.app) {
-            //                     console.log('set app errors');
-            //                 }
-            //                 else {
-            //                     context.setErrors(response.errors);
-            //
-            //                     context.clearSubmitting();
-            //                 }
-            //             }
-            //         });
-            //
-            //         throw new Error(response.statusText);
-            //     }
-            //
-            //     return response.json();
-            // }).then(jsonResponse => {
-            //     context.clearSubmitting();
-            //
-            //     onSignIn().then(
-            //         () => {
-            //             this.props.navigation.navigate("SignedIn")
-            //         }
-            //     );
-            // }).catch(err => console.log('error', err));
+            })
+            .catch(error => {
+                context.clearSubmitting();
+
+                this.handleFail(error);
+            })
         }
     }
 
@@ -168,4 +158,15 @@ class SignUpForm extends Component {
     }
 }
 
-export default SignUpForm;
+const mapDispatchToProps = dispatch => {
+    return {
+        setUser:      user  => dispatch(setUser(user)),
+        setUserError: error => dispatch(setUserError(error))
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SignUpForm);
+
