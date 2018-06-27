@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import fetcher from '../../../handlers/fetcher';
+import fetcher, {RequestValidationException} from '../../../handlers/fetcher';
 
 import {
     Button,
@@ -19,10 +19,7 @@ import { onSignIn } from "../../../auth";
 
 import { validPhone } from "../../../handlers/formValidation";
 
-import {
-    setUser,
-    setUserError
-} from "../../../actions/users";
+import { setUser } from "../../../actions/users";
 
 import { FORM_ERRORS } from "../../../constants/form";
 
@@ -31,8 +28,10 @@ class SignUpForm extends Component {
         super(props);
 
         this.state = {
-            phone:    '',
-            password: ''
+            phone:     '',
+            password:  '',
+            firstName: '',
+            lastName:  ''
         };
 
         this.signUp        = this.signUp.bind(this);
@@ -53,7 +52,9 @@ class SignUpForm extends Component {
 
         const missingErrors = context.getMissingErrors([
             'password',
-            'phone'
+            'phone',
+            'firstName',
+            'lastName'
         ], this.state);
 
         if (!_.isEmpty(missingErrors)) {
@@ -80,8 +81,13 @@ class SignUpForm extends Component {
         );
     }
 
-    handleFail(error) {
-        this.props.setUserError(error);
+    handleFail(error, context) {
+        if (error instanceof RequestValidationException) {
+            error.resolve().then(e => e.errors && context.setErrors(e.errors));
+        }
+        else {
+            throw error;
+        }
     }
 
     signUp(context) {
@@ -91,8 +97,10 @@ class SignUpForm extends Component {
             context.setSubmitting();
 
             fetcher.post('http://127.0.0.1:3000/user/signUp', {
-                phone:    this.state.phone,
-                password: this.state.password
+                phone:     this.state.phone,
+                password:  this.state.password,
+                firstName: this.state.firstName,
+                lastName:  this.state.lastName
             }).then(response => {
                 context.clearSubmitting();
 
@@ -102,7 +110,7 @@ class SignUpForm extends Component {
             .catch(error => {
                 context.clearSubmitting();
 
-                this.handleFail(error);
+                this.handleFail(error, context);
             })
         }
     }
@@ -117,6 +125,24 @@ class SignUpForm extends Component {
                 <FormContext.Consumer>
                     { context => (
                         <Card>
+                            <FormLabel>First Name</FormLabel>
+                            <FormInput
+                                placeholder="First Name"
+                                onChangeText={
+                                    value => this.handleChange('firstName', value)
+                                }
+                            />
+                            <FormValidationMessage>{ context.errors.firstName }</FormValidationMessage>
+
+                            <FormLabel>Last Name</FormLabel>
+                            <FormInput
+                                placeholder="Last Name"
+                                onChangeText={
+                                    value => this.handleChange('lastName', value)
+                                }
+                            />
+                            <FormValidationMessage>{ context.errors.lastName }</FormValidationMessage>
+
                             <FormLabel>Phone</FormLabel>
                             <FormInput
                                 placeholder="Phone number"
@@ -160,8 +186,7 @@ class SignUpForm extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setUser:      user  => dispatch(setUser(user)),
-        setUserError: error => dispatch(setUserError(error))
+        setUser: user => dispatch(setUser(user))
     }
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { initStore } from './store/store';
+import store from './store/store';
 import { Provider } from 'react-redux';
 
 //Temp
@@ -9,8 +9,6 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 
 import { createRootNavigator } from './router';
 import { isSignedIn } from './auth';
-
-const store = initStore();
 
 export default class App extends React.Component {
     constructor(props) {

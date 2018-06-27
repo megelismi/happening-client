@@ -5,15 +5,19 @@ const initialState = {
     userError: null
 };
 
-const usersReducer = (state = initialState, action) => {
+const users = (state = initialState, action) => {
     switch(action.type) {
         case SET_USER: {
             console.log('got to set user', action.user);
 
-            return {
+            const result = {
                 ...state,
                 user: action.user
-            }
+            };
+
+            console.log('state', result);
+
+            return result;
         }
 
         case SET_USER_ERROR: {
@@ -30,4 +34,4 @@ const usersReducer = (state = initialState, action) => {
     }
 };
 
-export default usersReducer;
+export default users;

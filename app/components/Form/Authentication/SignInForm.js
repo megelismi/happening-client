@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+
+import { setUser } from "../../../actions/users";
 
 import { onSignIn } from "../../../auth";
+
 import { validPhone } from "../../../handlers/formValidation";
+
 import { FORM_ERRORS } from "../../../constants/form";
 
 import _ from 'lodash';
@@ -64,16 +69,21 @@ class SignInForm extends Component {
         return valid;
     }
 
-    handleSuccess() {
-        //call this.props.setUser();
-        //navigate to home page
+    handleSuccess(user) {
+        onSignIn().then(
+            () => {
+                this.props.setUser(user);
+
+                this.props.navigation.navigate("SignedIn")
+            }
+        );
     }
 
     handleFail(error, context) {
+        console.log('error!', error)
         if (error instanceof RequestValidationException) {
-            error.resolve().then(e => console.log('e!!', e));
-
-            //error.resolve().then( console.log('requestValidationError', error) );
+            console.log('here!')
+            error.resolve().then(e => e.errors && context.setErrors(e.errors));
         }
         else {
             throw error;
@@ -86,7 +96,7 @@ class SignInForm extends Component {
 
             context.clearErrors();
 
-            fetcher.post('http://127.0.0.1:3000/user/signUp', {
+            fetcher.post('http://127.0.0.1:3000/user/signIn', {
                 phone:    this.state.phone,
                 password: this.state.password
             }).then(response => {
@@ -96,50 +106,8 @@ class SignInForm extends Component {
             }).catch(error => {
                 context.clearSubmitting();
 
-                this.handleFail(error);
+                this.handleFail(error, context);
             });
-
-            // fetch('http://127.0.0.1:3000/user/signIn', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept':       'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         phone:    this.state.phone,
-            //         password: this.state.password
-            //     })
-            // }).then(response => {
-            //     if (!response.ok) {
-            //         response.json().then(response => {
-            //             if (response.errors) {
-            //                 if (response.errors.app) {
-            //                     console.log('set app errors');
-            //                 }
-            //                 else {
-            //                     context.setErrors(response.errors);
-            //
-            //                     context.clearSubmitting();
-            //                 }
-            //             }
-            //         });
-            //
-            //         throw new Error(response.statusText);
-            //     }
-            //
-            //     return response.json();
-            // }).then(jsonResponse => {
-            //     console.log('jsonResponse', jsonResponse);
-            //
-            //     context.clearSubmitting();
-            //
-            //     onSignIn().then(
-            //         () => {
-            //             this.props.navigation.navigate("SignedIn")
-            //         }
-            //     );
-            // })
-            // .catch(err => console.log('error', err))
         }
     }
 
@@ -188,5 +156,14 @@ class SignInForm extends Component {
     }
 }
 
-export default SignInForm;
+const mapDispatchToProps = dispatch => {
+    return {
+        setUser: user => dispatch(setUser(user))
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SignInForm);
 
