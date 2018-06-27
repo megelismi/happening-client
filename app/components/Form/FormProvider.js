@@ -34,6 +34,7 @@ export class FormProvider extends Component {
     }
 
     setErrors(errors) {
+        console.log('setting errors!', errors);
         this.setState({ errors });
     }
 
