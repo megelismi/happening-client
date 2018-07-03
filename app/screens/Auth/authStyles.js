@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 
 const authStyles = StyleSheet.create({
     wrapper: {
-        flex: 1
+        flex: 1,
+        paddingVertical: 20,
+        backgroundColor: "#3939F9"
     },
     container : {
         flex: 1,
@@ -12,12 +14,6 @@ const authStyles = StyleSheet.create({
         paddingLeft: 40,
         paddingRight: 40
     },
-    header: {
-        fontSize: 24,
-        marginBottom: 60,
-        color: '#fff',
-        fontWeight: 'bold'
-    },
     textInput: {
         alignSelf: 'stretch',
         padding: 16,
@@ -25,10 +21,20 @@ const authStyles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     btn: {
-        alignSelf: 'stretch',
-        backgroundColor: '#01c853',
-        padding: 20,
-        alignItems: 'center'
+        link: {
+            backgroundColor: 'transparent'
+            color: '#fff',
+            alignItems: 'center',
+            alignSelf: 'stretch',
+            padding: 20
+        },
+        outline: {
+            backgroundColor: 'transparent',
+            color: '#fff',
+            alignItems: 'center',
+            alignSelf: 'stretch',
+            padding: 20
+        }
     }
 });
 

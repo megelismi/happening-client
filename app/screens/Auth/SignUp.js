@@ -6,8 +6,10 @@ import { onSignUp } from "../../auth";
 
 import SignUpForm from '../../components/Form/Authentication/SignUpForm';
 
+import styles from './authStyles';
+
 export default ({ navigation }) => (
-    <View style={{ paddingVertical: 20 }}>
+    <View style={ styles.wrapper }>
         <SignUpForm navigation={ navigation } />
     </View>
 );

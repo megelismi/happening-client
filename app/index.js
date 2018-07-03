@@ -45,7 +45,7 @@ export default class App extends React.Component {
 
         return (
             <Provider store={ store }>
-                <Layout />
+                <Layout style={{ backgroundColor: "#3939F9" }}/>
             </Provider>
         );
     }

@@ -8,6 +8,11 @@
     "react-test-renderer": "16.3.1"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  },
   "scripts": {
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",

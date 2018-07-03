@@ -23,6 +23,8 @@ import { setUser } from "../../../actions/users";
 
 import { FORM_ERRORS } from "../../../constants/form";
 
+import styles from '../../../screens/Auth/authStyles';
+
 class SignUpForm extends Component {
     constructor(props) {
         super(props);
@@ -163,16 +165,13 @@ class SignUpForm extends Component {
                             <FormValidationMessage>{ context.errors.password }</FormValidationMessage>
 
                             <Button
-                                buttonStyle={{ marginTop: 20 }}
-                                backgroundColor="#03A9F4"
+                                buttonStyle={{ styles.btn.outline }}
                                 title="Sign Up"
                                 onPress={ () => this.signUp(context) }
                             />
 
                             <Button
-                                buttonStyle={{ marginTop: 20 }}
-                                backgroundColor="transparent"
-                                textStyle={{ color: "#bcbec1" }}
+                                buttonStyle={{ styles.btn.link }}
                                 title="Sign In"
                                 onPress={ () => this.props.navigation.navigate("SignIn") }
                             />
