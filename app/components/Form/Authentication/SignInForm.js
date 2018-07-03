@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
+import { View } from "react-native";
+
 import { setUser } from "../../../actions/users";
 
 import { onSignIn } from "../../../auth";
@@ -120,7 +122,7 @@ class SignInForm extends Component {
             <FormProvider>
                 <FormContext.Consumer>
                     { context => (
-                        <Card>
+                        <View>
                             <FormLabel>Phone</FormLabel>
                             <FormInput
                                 value={ this.state.phone }
@@ -148,7 +150,7 @@ class SignInForm extends Component {
                                 title="Sign In"
                                 onPress={ () => this.signIn(context) }
                             />
-                        </Card>
+                        </View>
                     ) }
                 </FormContext.Consumer>
             </FormProvider>

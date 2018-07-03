@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
+import { View } from "react-native";
+
 import fetcher, {RequestValidationException} from '../../../handlers/fetcher';
 
 import {
     Button,
-    Card,
     FormInput,
-    FormLabel,
     FormValidationMessage
 } from 'react-native-elements';
 
@@ -126,8 +126,7 @@ class SignUpForm extends Component {
             <FormProvider>
                 <FormContext.Consumer>
                     { context => (
-                        <Card>
-                            <FormLabel>First Name</FormLabel>
+                        <View>
                             <FormInput
                                 placeholder="First Name"
                                 onChangeText={
@@ -136,7 +135,6 @@ class SignUpForm extends Component {
                             />
                             <FormValidationMessage>{ context.errors.firstName }</FormValidationMessage>
 
-                            <FormLabel>Last Name</FormLabel>
                             <FormInput
                                 placeholder="Last Name"
                                 onChangeText={
@@ -145,7 +143,6 @@ class SignUpForm extends Component {
                             />
                             <FormValidationMessage>{ context.errors.lastName }</FormValidationMessage>
 
-                            <FormLabel>Phone</FormLabel>
                             <FormInput
                                 placeholder="Phone number"
                                 onChangeText={
@@ -154,7 +151,6 @@ class SignUpForm extends Component {
                             />
                             <FormValidationMessage>{ context.errors.phone }</FormValidationMessage>
 
-                            <FormLabel>Password</FormLabel>
                             <FormInput
                                 secureTextEntry
                                 placeholder="Password"
@@ -165,17 +161,19 @@ class SignUpForm extends Component {
                             <FormValidationMessage>{ context.errors.password }</FormValidationMessage>
 
                             <Button
-                                buttonStyle={{ styles.btn.outline }}
+                                buttonStyle={ styles.btnOutline }
+                                textStyle={{ color: "#3939F9" }}
                                 title="Sign Up"
                                 onPress={ () => this.signUp(context) }
                             />
 
                             <Button
-                                buttonStyle={{ styles.btn.link }}
+                                buttonStyle={ styles.btnLink }
+                                textStyle={{ color: "#3939F9" }}
                                 title="Sign In"
                                 onPress={ () => this.props.navigation.navigate("SignIn") }
                             />
-                        </Card>
+                        </View>
                     ) }
                 </FormContext.Consumer>
             </FormProvider>

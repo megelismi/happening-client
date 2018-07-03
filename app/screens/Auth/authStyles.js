@@ -4,7 +4,7 @@ const authStyles = StyleSheet.create({
     wrapper: {
         flex: 1,
         paddingVertical: 20,
-        backgroundColor: "#3939F9"
+        backgroundColor: "white"
     },
     container : {
         flex: 1,
@@ -18,23 +18,22 @@ const authStyles = StyleSheet.create({
         alignSelf: 'stretch',
         padding: 16,
         marginBottom: 20,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        borderColor: "#707070"
     },
-    btn: {
-        link: {
-            backgroundColor: 'transparent'
-            color: '#fff',
-            alignItems: 'center',
-            alignSelf: 'stretch',
-            padding: 20
-        },
-        outline: {
-            backgroundColor: 'transparent',
-            color: '#fff',
-            alignItems: 'center',
-            alignSelf: 'stretch',
-            padding: 20
-        }
+    btnLink: {
+        backgroundColor: "transparent",
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        padding: 16
+    },
+    btnOutline: {
+        backgroundColor: "transparent",
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        padding: 16,
+        borderWidth: 1,
+        borderColor: '#3939F9'
     }
 });
 
