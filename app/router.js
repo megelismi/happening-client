@@ -13,6 +13,7 @@ import Home from "./screens/Home/Home";
 import Profile from "./screens/Profile/Profile";
 import SignUp from "./screens/Auth/SignUp";
 import SignIn from "./screens/Auth/SignIn";
+import Landing from './screens/Landing/Landing';
 
 import { FontAwesome } from "react-native-vector-icons";
 
@@ -34,6 +35,12 @@ export const createRootNavigator = (signedIn = false) => {
 };
 
 export const SignedOut = createStackNavigator({
+    Landing: {
+        screen: Landing,
+        navigationOptions: {
+            title: 'Happening'
+        }
+    },
     SignUp: {
         screen: SignUp,
         navigationOptions: {
